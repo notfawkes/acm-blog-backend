@@ -37,7 +37,6 @@ export default async function handler(req, res) {
       return res.status(200).json(blog);
     }
 
-    // Return list of blogs
     const blogs = await collection
       .find({})
       .project({
