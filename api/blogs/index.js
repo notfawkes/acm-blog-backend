@@ -1,18 +1,16 @@
 // api/blogs/index.js
-import 'dotenv/config'; // loads .env.local automatically
+import 'dotenv/config';
 import clientPromise from "../../lib/mongodb.js";
 import { ObjectId } from 'mongodb';
 
 export default async function handler(req, res) {
   // === CORS headers ===
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080', 'https://acm-blogs.vercel.app/'); // allow frontend on localhost
+  res.setHeader('Access-Control-Allow-Origin', '*'); // allow all origins for prod
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   // Handle preflight OPTIONS request
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
-  }
+  if (req.method === 'OPTIONS') return res.status(204).end();
 
   if (req.method !== 'GET') {
     res.setHeader('Allow', ['GET']);
@@ -24,7 +22,6 @@ export default async function handler(req, res) {
     const db = client.db("ACM-SIGAI");
     const collection = db.collection("blogs");
 
-    // If an id query param is provided, return single blog
     if (req.query.id) {
       let { id } = req.query;
       if (Array.isArray(id)) id = id[0];
@@ -37,7 +34,6 @@ export default async function handler(req, res) {
       return res.status(200).json(blog);
     }
 
-    // Otherwise return list of blogs with limited fields
     const blogs = await collection
       .find({})
       .project({
