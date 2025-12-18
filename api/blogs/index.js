@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 
 export default async function handler(req, res) {
   // === CORS headers ===
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000', 'https://acm-blogs.vercel.app/'); // allow frontend on localhost
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080', 'https://acm-blogs.vercel.app/'); // allow frontend on localhost
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
